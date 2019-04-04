@@ -1,0 +1,36 @@
+[{
+    "name": "development",
+    "app_name": "Sidebar and menu management",
+    "app_desc": "Sidebar and menu management",
+    "node_port": 3000,
+    "json_indentation": 4,
+    "databaseUrl": "mongodb://localhost:27017/Open",
+    "dist": "dist/dev"
+},
+{
+    "name": "testing",
+    "app_name": "Sidebar and menu management",
+    "app_desc": "Sidebar and menu management",
+    "node_port": null,
+    "json_indentation": 4,
+    "databaseUrl": "mongodb://localhost:27017/Open",
+    "dist": ""
+},
+{
+    "name": "staging",
+    "node_port": 8080,
+    "app_name": "Sidebar and menu management",
+    "app_desc": "Sidebar and menu management",
+    "json_indentation": 4,
+    "databaseUrl": "mongodb://localhost:27017/Open",
+    "dist": "dist/staging"
+},
+{
+    "name": "production",
+    "node_port": 8080,
+    "app_name": "Sidebar and menu management",
+    "app_desc": "Sidebar and menu management",
+    "json_indentation": 4,
+    "databaseUrl": "mongodb://localhost:27017/Open",
+    "dist": "dist/production"
+}]

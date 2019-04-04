@@ -3,7 +3,7 @@ import {Request, Response} from "express";
 export class Routes {       
     public routes(app): void {   
             
-        // menus 
+        // get all menus 
         app.route('/menus') 
         // GET endpoint 
         .get((req: Request, res: Response) => {
@@ -11,17 +11,19 @@ export class Routes {
             res.status(200).send({
                 message: 'GET request successfulll!!!!'
             })
-        })        
+        });
+
+        app.route('/menu')         
         // POST endpoint
         .post((req: Request, res: Response) => {   
         // Create new menu         
             res.status(200).send({
                 message: 'POST request successfulll!!!!'
             })
-        })
+        });
 
-        // menu by id
-        app.route('/menus/:menuId')
+        // menu by name
+        app.route('/menus/:name')
         // get specific contact
         .get((req: Request, res: Response) => {
         // Get a single menu             

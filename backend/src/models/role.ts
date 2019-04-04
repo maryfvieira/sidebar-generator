@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { RepositoryBase } from "../repo/repository-base";
+import { RepositoryBase } from "../repo/repositoryBase";
 
 const Schema = mongoose.Schema;
 

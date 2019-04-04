@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
-import { IRole, roleSchema, RoleModel } from "./role.model";
-import { IBreadCrumb, breadcrumbSchema } from "./breadcrumb.model";
-import { RepositoryBase } from "../repo/repository-base";
+import { IRole, roleSchema, RoleModel } from "./role";
+import { IBreadCrumb, breadcrumbSchema } from "./breadcrumb";
+import { RepositoryBase } from "../repo/repositoryBase";
 
 const Schema = mongoose.Schema;
 

@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
-import { IMenuItem, menuItemSchema } from "./menu-item.model";
-import { RepositoryBase } from "../repo/repository-base";
+import { IMenuItem, menuItemSchema } from "./menuItem";
+import { RepositoryBase } from "../repo/repositoryBase";
 
 const Schema = mongoose.Schema;
 
