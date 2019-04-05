@@ -42,5 +42,8 @@ export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IW
     private toObjectId(_id: string): mongoose.Types.ObjectId {
       return mongoose.Types.ObjectId.createFromHexString(_id);
     }
-  
+    
   }
+
+
+  

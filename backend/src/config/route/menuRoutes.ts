@@ -1,7 +1,11 @@
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
+import * as express from "express";
 
+const app = express();
 export class Routes {       
-    public routes(app): void {   
+    //public menuCo
+    
+    public routes(app: express.Application): void {   
             
         // get all menus 
         app.route('/menus') 

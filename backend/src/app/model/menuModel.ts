@@ -1,30 +1,7 @@
 import * as mongoose from "mongoose";
-import { IMenuItem, menuItemSchema } from "./menuItem";
-import { RepositoryBase } from "../repo/repositoryBase";
-
-const Schema = mongoose.Schema;
-
-export interface IMenu extends mongoose.Document {
-    name: string;
-    children: [IMenuItem];
-}
-
-export const schema = new Schema({
-    name: String,
-    children: [{ 
-        type: Schema.Types.ObjectId,
-        ref: 'menuItem' 
-    }]
-});
-
-export let menuSchema = mongoose.model<IMenu>('menu', schema);
-module.exports = menuSchema;
-
-export class MenuRepository extends RepositoryBase<IMenu> {
-    constructor() {
-      super(menuSchema);
-    }
-}
+import { IMenu } from "./interface/iMenu";
+import { IMenuItem } from "./interface/iMenuItem";
+import { MenuRepository } from "../repository/menuRepository";
 
 export class MenuModel {
 
@@ -41,7 +18,7 @@ export class MenuModel {
         return this._menu.children;
     }
 
-    static createRole(name: string, children: Array<IMenuItem>): Promise<IMenu> {
+    static create(name: string, children: Array<IMenuItem>): Promise<IMenu> {
         let p = new Promise<IMenu>((resolve, reject) => {
       
             let repo = new MenuRepository();

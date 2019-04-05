@@ -5,18 +5,18 @@ import * as data from 'config.json';
 import * as configFile from './config.json';
 import { ConfigModel } from "./configModel";
 
-export class Config {
-    private static instance: Config;
+export class AppConfig {
+    private static instance: AppConfig;
 
     private model: ConfigModel;
     private envType: EnvironmentType;
 
     constructor(envType: EnvironmentType){
 
-        if (Config.instance) {
-            return Config.instance;
+        if (AppConfig.instance) {
+            return AppConfig.instance;
         }else{
-            Config.instance = this;
+            AppConfig.instance = this;
             const configObj = (<any>configFile);
             this.envType = envType;
             this.setConfig(configObj);

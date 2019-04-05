@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/maryfvieira/sidebar-generator#readme",
   "dependencies": {
+    "@types/errorhandler": "0.0.32",
     "@types/express": "^4.16.1",
     "@types/lodash": "^4.14.123",
     "body-parser": "^1.18.3",

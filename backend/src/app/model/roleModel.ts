@@ -1,27 +1,6 @@
 import * as mongoose from "mongoose";
-import { RepositoryBase } from "../repo/repositoryBase";
-
-const Schema = mongoose.Schema;
-
-export interface IRole extends mongoose.Document {
-    name: string;
-}
-
-export const schema = new Schema({
-    name: {
-        type: String,
-        require: true           
-    }
-});
-
-export let roleSchema = mongoose.model<IRole>('role', schema);
-module.exports = roleSchema;
-
-export class RoleRepository extends RepositoryBase<IRole> {
-    constructor() {
-      super(roleSchema);
-    }
-}
+import { IRole } from "./interface/iRole";
+import { RoleRepository } from "../repository/roleRepository";
 
 export class RoleModel {
 
@@ -35,7 +14,7 @@ export class RoleModel {
         return this._role.name;
     }
 
-    static createRole(name: string): Promise<IRole> {
+    static create(name: string): Promise<IRole> {
         let p = new Promise<IRole>((resolve, reject) => {
       
             let repo = new RoleRepository();

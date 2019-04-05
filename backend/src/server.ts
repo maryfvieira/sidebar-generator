@@ -1,16 +1,13 @@
-import app from './app';
-import * as https from 'https';
-import * as fs from 'fs';
-const PORT = 3000;
 
-const config = fs.readFileSync('./config/config.js');
+import app from "./app";
 
+const server = app.listen(app.get("port"), () => {
+  console.log(
+    "  App is running at http://localhost:%d in %s mode",
+    app.get("port"),
+    app.get("env")
+  );
+  console.log("  Press CTRL-C to stop\n");
+});
 
-const httpsOptions = {
-    key: fs.readFileSync('./config/key.pem'),
-    cert: fs.readFileSync('./config/cert.pem')
-}
-
-https.createServer(httpsOptions, app).listen(PORT, () => {
-    console.log('Express server listening on port ' + PORT);
-})
+export default server;
