@@ -1,9 +1,11 @@
 import {Request, Response, NextFunction} from "express";
 import * as express from "express";
+import { MenuController } from "controller/menuController";
 
 const app = express();
-export class Routes {       
-    //public menuCo
+export class MenuRoutes {   
+
+    public routeController: MenuController = new MenuController()     
     
     public routes(app: express.Application): void {   
             
@@ -15,7 +17,7 @@ export class Routes {
             res.status(200).send({
                 message: 'GET request successfulll!!!!'
             })
-        });
+        }, this.routeController.getMenu);
 
         app.route('/menu')         
         // POST endpoint
@@ -24,7 +26,7 @@ export class Routes {
             res.status(200).send({
                 message: 'POST request successfulll!!!!'
             })
-        });
+        }, this.routeController.addMenu);
 
         // menu by name
         app.route('/menus/:name')
