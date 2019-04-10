@@ -1,8 +1,10 @@
 import { RepositoryBase } from "./repositoryBase";
-import { IMenuItem } from "../model/interface/iMenuItem";
+import { IMenuItemModel } from "../model/interface/iMenuItemModel";
 import { menuItemSchema } from "./../dataAccess/schemas/menuItemSchema";
+import { injectable } from "inversify";
 
-export class MenuItemRepository extends RepositoryBase<IMenuItem> {
+@injectable()
+export default class MenuItemRepository extends RepositoryBase<IMenuItemModel> {
     constructor() {
       super(menuItemSchema);
     }

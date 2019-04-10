@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
 
-export interface IRole extends mongoose.Document {
+export interface IRoleModel extends mongoose.Document {
     name: string;
 }

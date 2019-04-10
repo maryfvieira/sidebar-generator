@@ -1,8 +1,7 @@
 import * as mongoose from 'mongoose';
-import { IRead } from './iRead';
-import { IWrite } from './iWrite';
+import * as IBaseRepository from './iBaseRepository';
 
-export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IWrite<T> {
+export class RepositoryBase<T extends mongoose.Document> implements IBaseRepository.default<T> {
 
     private _model: mongoose.Model<mongoose.Document>;
 
@@ -31,9 +30,9 @@ export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IW
       this._model.findById(_id, callback);
     }
   
-    // findOne(cond?: Object, callback?: (err: any, res: T) => void): mongoose.<T> {
-    //   return this._model.findOne(cond, callback);
-    // }
+    findOne(cond?: Object, callback?: (err: any, res: T) => void): mongoose.DocumentQuery<mongoose.Document, mongoose.Document, {}> {
+      return this._model.findOne(cond, callback);
+    }
   
     find(cond?: Object, fields?: Object, options?: Object, callback?: (err: any, res: T[]) => void): mongoose.DocumentQuery<mongoose.Document[], mongoose.Document, {}> {
       return this._model.find(cond, options, callback);

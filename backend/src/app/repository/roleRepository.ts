@@ -1,8 +1,10 @@
 import { RepositoryBase } from "./repositoryBase";
-import { IRole } from "../model/interface/iRole";
+import { IRoleModel } from "../model/interface/iRoleModel";
 import { roleSchema } from "./../dataAccess/schemas/roleSchema";
+import { injectable } from "inversify";
 
-export class RoleRepository extends RepositoryBase<IRole> {
+@injectable()
+export default class RoleRepository extends RepositoryBase<IRoleModel> {
     constructor() {
       super(roleSchema);
     }

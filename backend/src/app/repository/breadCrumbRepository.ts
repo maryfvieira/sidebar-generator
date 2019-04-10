@@ -1,8 +1,10 @@
 import { RepositoryBase } from "./repositoryBase";
-import { IBreadCrumb } from "../model/interface/iBreadCrumb";
+import { IBreadCrumbModel } from "../model/interface/iBreadCrumbModel";
 import { breadcrumbSchema } from "./../dataAccess/schemas/breadCrumbSchema";
+import { injectable } from "inversify";
 
-export class BreadCrumbRepository extends RepositoryBase<IBreadCrumb> {
+@injectable()
+export default class BreadCrumbRepository extends RepositoryBase<IBreadCrumbModel> {
     constructor() {
       super(breadcrumbSchema);
     }

@@ -1,14 +1,15 @@
 import * as mongoose from "mongoose";
-import { IRole } from "../../model/interface/iRole";
+import { IRoleModel } from "../../model/interface/iRoleModel";
 
 const Schema = mongoose.Schema;
 
 export const schema = new Schema({
+    id: Schema.Types.ObjectId,
     name: {
         type: String,
         require: true           
     }
 });
 
-export let roleSchema = mongoose.model<IRole>('role', schema);
+export let roleSchema = mongoose.model<IRoleModel>('role', schema);
 module.exports = roleSchema;
