@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mongo:
+    container_name: mongo_db
+    image: mongo:4.0
+    volumes:
+      - ".${MONGO_DATA_DIR}:${MONGO_DATA_DIR}"
+    expose:
+      - 27017
+    command: "mongod --smallfiles --logpath=${MONGO_LOG_FILE}"
+  backend:
+    container_name: backend_app
+    build: 
+      context: ../
+      dockerfile: backend/Dockerfile 
+    ports:
+      - "4000:4000"
+    restart: always
+    links:
+      - mongo
+  frontend:
+    container_name: front_app
+    build: 
+      context: ../
+      dockerfile: frontend/Dockerfile 
+    ports:
+      - "3000:80"
+    restart: always
+    links:
+      - backend

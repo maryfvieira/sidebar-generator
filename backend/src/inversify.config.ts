@@ -1,40 +1,79 @@
 import {Container} from "inversify";
-import identifier from "./app/identifier";
-import IBaseRepository from './app/repository/iBaseRepository';
-import RoleRepository from "./app/repository/roleRepository";
-import BreadCrumbRepository from "./app/repository/breadCrumbRepository";
-import MenuItemRepository from "./app/repository/menuItemRepository";
-import MenuSubItemRepository from "./app/repository/menuSubItemRepository";
-import MenuRepository from "./app/repository/menuRepository";
-import { IMenuModel } from "app/model/interface/iMenuModel";
-import { IBreadCrumbModel } from "app/model/interface/iBreadCrumbModel";
-import { IMenuItemModel } from "app/model/interface/iMenuItemModel";
-import { IMenuSubItemModel } from "app/model/interface/iMenuSubItemModel";
-import { IRoleModel } from "app/model/interface/iRoleModel";
-import { IBusiness } from "app/business/IBusiness";
-import { MenuBusiness } from "app/business/menuBusiness";
+import BreadcrumbRepositoryBase from "./app/dataaccess/repository/breadcrumb-repo-base";
+import { MenuRepository } from "./app/dataaccess/repository/menu-repo";
+import TYPES from "./constants/TYPES"
+import { BreadcrumbRepository } from "./app/dataaccess/repository/breadcrumb-repo";
+import MenuRepositoryBase from "./app/dataaccess/repository/menu-repo-base";
+import RoleRepositoryBase from "./app/dataaccess/repository/role-repo-base";
+import { RoleRepository } from "./app/dataaccess/repository/role-repo";
+import { BreadcrumbServiceBase } from "./app/services/breadcrumb-service-base";
+import { BreadcrumbService } from "./app/services/breadcrumb-service";
+import { RoleServiceBase } from "./app/services/role-service-base";
+import { RoleService } from "./app/services/role-service";
+import { MenuServiceBase } from "./app/services/menu-service-base";
+import { MenuService } from "./app/services/menu-service";
+import { AppConfig } from "config/appConfig";
+import { logger, WistomLog } from "utils/log";
+import { Logger } from "winston";
+
+class AppConfigDefinition {
+
+    static getObj(): AppConfig {
+        return new AppConfig(AppConfigDefinition.getEnvironmentType())
+    }
+
+    static getEnvironmentType(): EnvironmentType {
+
+        let environmentType: EnvironmentType;
+
+        switch(process.env.NODE_ENV){
+            case "development" : environmentType = EnvironmentType.Dev; break;
+            case "production" : environmentType = EnvironmentType.Prod; break;
+            case "stagging" : environmentType = EnvironmentType.Stagging; break;
+            case "test" : environmentType = EnvironmentType.Test; break;
+            default : environmentType = EnvironmentType.Dev; break;
+        }
+
+        return environmentType;
+
+    }
+}
 
 const myContainer = new Container();
-myContainer
-    .bind<IBaseRepository<IMenuModel>>(identifier.MenuRepo)
-    .to(MenuRepository);  
 
 myContainer
-    .bind<IBaseRepository<IBreadCrumbModel>>(identifier.BreadCrumbRepo)
-    .to(BreadCrumbRepository);  
+    .bind<BreadcrumbRepositoryBase>(TYPES.BreadCrumbRepo)
+    .to(BreadcrumbRepository); 
 
 myContainer
-    .bind<IBaseRepository<IMenuItemModel>>(identifier.ItemMenuRepo)
-    .to(MenuItemRepository);  
+    .bind<MenuRepositoryBase>(TYPES.MenuRepo)
+    .to(MenuRepository); 
 
 myContainer
-    .bind<IBaseRepository<IMenuSubItemModel>>(identifier.SubItemMenuRepo)
-    .to(MenuSubItemRepository);  
+    .bind<RoleRepositoryBase>(TYPES.RoleRepo)
+    .to(RoleRepository); 
 
 myContainer
-    .bind<IBaseRepository<IRoleModel>>(identifier.RoleRepo)
-    .to(RoleRepository);  
+    .bind<BreadcrumbServiceBase>(TYPES.BreadCrumbSrv)
+    .to(BreadcrumbService); 
 
 myContainer
-    .bind<IBusiness<IRoleModel, MenuRepository>>(identifier.MenuBusiness)
-    .to(MenuBusiness);  
+    .bind<RoleServiceBase>(TYPES.RoleSrv)
+    .to(RoleService); 
+
+myContainer
+    .bind<MenuServiceBase>(TYPES.MenuSrv)
+    .to(MenuService); 
+
+myContainer
+    .bind<AppConfig>(TYPES.AppConfig)
+    .toConstantValue(AppConfigDefinition.getObj());
+
+myContainer
+    .bind<Logger>(TYPES.Log)
+    .toConstantValue(new WistomLog().log());
+
+    
+export default myContainer;
+
+

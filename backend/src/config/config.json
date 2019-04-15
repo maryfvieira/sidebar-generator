@@ -8,7 +8,7 @@
     "dist": "dist/dev"
 },
 {
-    "name": "testing",
+    "name": "test",
     "app_name": "Sidebar and menu management",
     "app_desc": "Sidebar and menu management",
     "node_port": null,
@@ -17,7 +17,7 @@
     "dist": ""
 },
 {
-    "name": "staging",
+    "name": "stagging",
     "node_port": 8080,
     "app_name": "Sidebar and menu management",
     "app_desc": "Sidebar and menu management",

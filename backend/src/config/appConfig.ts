@@ -1,5 +1,4 @@
 import * as express from "express";
-import * as lodash from "lodash";
 import * as fs from 'fs';
 import * as data from 'config.json';
 import * as configFile from './config.json';
@@ -8,8 +7,8 @@ import { ConfigModel } from "./configModel";
 export class AppConfig {
     private static instance: AppConfig;
 
-    private model: ConfigModel;
-    private envType: EnvironmentType;
+    private model!: ConfigModel;
+    private envType: EnvironmentType | undefined;
 
     constructor(envType: EnvironmentType){
 
