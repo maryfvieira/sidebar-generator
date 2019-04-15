@@ -14,21 +14,21 @@ export class WistomLog{
 
   constructor(){
 
-    if (!fs.existsSync(logDir)) {
-      fs.mkdirSync(logDir);
+    if (!fs.existsSync(this.logDir)) {
+      fs.mkdirSync(this.logDir);
     }
 
     this.logger = this.getLoggerInstance();
   }
 
   public log(): Logger{
-    return logger;
+    return this.logger;
   }
 
   private getLoggerInstance() : Logger {
     this.logger = createLogger({
       // change level if in dev environment versus production
-      level: env === 'development' ? 'debug' : 'info',
+      level: this.env === 'development' ? 'debug' : 'info',
       format: format.combine(
         format.timestamp({
           format: 'YYYY-MM-DD HH:mm:ss'
@@ -46,7 +46,7 @@ export class WistomLog{
           )
         }),
         new dailyRotateFile({
-          dirname: logDir,
+          dirname: this.logDir,
           filename: `%DATE%-results.log`,
           json: true,
           datePattern: 'YYYY-MM-DD'
@@ -58,42 +58,7 @@ export class WistomLog{
   }  
 }
 
-const logDir = './../../log';
-const env = process.env.NODE_ENV || 'development';
 
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
-}
-
-const dailyRotateFileTransport = new dailyRotateFile({
-  dirname: logDir,
-  filename: `%DATE%-results.log`,
-  json: true,
-  datePattern: 'YYYY-MM-DD'
-});
-
-export const logger = createLogger({
-  // change level if in dev environment versus production
-  level: env === 'development' ? 'debug' : 'info',
-  format: format.combine(
-    format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss'
-    }),
-    format.printf(debug => `${debug.timestamp} ${debug.level}: ${debug.message}`)
-  ),
-  transports: [
-    new transports.Console({
-      level: 'debug',
-      format: format.combine(
-        format.colorize(),
-        format.printf(
-          debug => `${debug.timestamp} ${debug.level}: ${debug.message}`
-        )
-      )
-    }),
-    dailyRotateFileTransport
-  ]
-});
 
 
 
