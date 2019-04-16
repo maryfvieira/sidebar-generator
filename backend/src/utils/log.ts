@@ -4,7 +4,10 @@ import dailyRotateFile from "winston-daily-rotate-file";
 import DailyRotateFileTransportInstance from "winston-daily-rotate-file";
 import * as fs from 'fs';
 
-export class WistomLog{
+export interface ILog{
+  log(): Logger;
+}
+export class WistomLog implements ILog{
   
   private dailyRotateFileTransport: any;
   private logDir = './../../log';

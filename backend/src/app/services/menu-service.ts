@@ -9,13 +9,12 @@ import { MenuServiceBase } from "./menu-service-base";
 import TYPES from "../../constants/TYPES";
 import MenuRepositoryBase from "../dataaccess/repository/menu-repo-base";
 import { Menu } from "../../models/menu-model";
-import { Logger } from "winston";
 
 @injectable()
 export class MenuService extends MenuServiceBase {
 
-  public constructor(@inject(TYPES.MenuRepo) repo: MenuRepositoryBase, @inject(TYPES.Log) logger: Logger) {
-    super(repo, logger);
+  public constructor(@inject(TYPES.MenuRepo) repo: MenuRepositoryBase) {
+    super(repo);
   }
   getByRole(role: string): Promise<Menu[]> {
     let p = new Promise<Menu[]>((resolve, reject) => {

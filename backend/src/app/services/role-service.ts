@@ -7,15 +7,14 @@ import RoleRepositoryBase from "../dataaccess/repository/role-repo-base";
 import { Role } from "../../models/role-model";
 import TYPES from "../../constants/TYPES";
 import { RoleServiceBase } from "./role-service-base";
-import { Logger } from "winston";
 import { String, StringBuilder } from 'typescript-string-operations';
 import { stringify } from "querystring";
 
 @injectable()
 export class RoleService extends RoleServiceBase{
 
-    public constructor(@inject(TYPES.RoleRepo) repo: RoleRepositoryBase, @inject(TYPES.Log) logger: Logger) {
-        super(repo, logger);
+    public constructor(@inject(TYPES.RoleRepo) repo: RoleRepositoryBase) {
+        super(repo);
     }
     
     create(role: Role): Promise<void> {
@@ -23,7 +22,6 @@ export class RoleService extends RoleServiceBase{
     
         this.repo.create(role, (err, res) => {
           if (err) {
-            this.logger.error(String.Format("Erro ao criar role, descricao do erro: {0}, Role: {1}", (<Error>err).message, JSON.stringify(role)));
             reject(err);
           }
           else {
@@ -38,8 +36,6 @@ export class RoleService extends RoleServiceBase{
     
         this.repo.delete(id, (err, res) => {
           if (err) {
-            this.logger.error( "Erro ao remover role, descricao do erro:" + (<Error>err).message)
-            this.logger.error(String.Format("Erro ao remover role, descricao do erro: {0}, idRole: {1}", (<Error>err).message, id));
             reject(err);
           }
           else {
@@ -54,7 +50,6 @@ export class RoleService extends RoleServiceBase{
     
         this.repo.update(role.id, role, (err, res) => {
           if (err) {
-            this.logger.error(String.Format("Erro ao atualizar role, descricao do erro: {0}, Role: {1}", (<Error>err).message, JSON.stringify(role)));
             reject(err);
           }
           else {
@@ -70,7 +65,6 @@ export class RoleService extends RoleServiceBase{
     
         this.repo.findById(id, (err, res) => {
           if (err) {
-            this.logger.error(String.Format("Erro ao retornar role, descricao do erro: {0}, idRole: {1}", (<Error>err).message, id));
             reject(err);
           }
           else {
@@ -86,7 +80,6 @@ export class RoleService extends RoleServiceBase{
     
         this.repo.findAll((err, res) => {
           if (err) {
-            this.logger.error("Erro ao retornar todas as role, descricao do erro:" + (<Error>err).message)
             reject(err);
           }
           else {

@@ -2,9 +2,21 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node ./src/index.ts",
+    "start:simple": "nodemon ./dist/index.js",
+    "prod": "npm run build && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm-run-all -s clean build start:simple",
+    "clean": "npm-run-all -p clean:*",
+    "clean:dist": "rimraf dist",
+    "clean:cov": "rimraf coverage",
+    "build": "npm-run-all -s build:swagger",
+    "build:swagger": "npm run swagger-gen && npm run routes-gen && tsc && npm run copy-swagger-ui",
+    "swagger-gen": "tsoa swagger",
+    "routes-gen": "tsoa routes",
+    "copy-swagger-ui": "ncp ./src/swagger-ui ./dist/swagger-ui"
   },
   "author": "Mary F Vieira <mary.feliciano@gmail.com>",
   "license": "ISC",

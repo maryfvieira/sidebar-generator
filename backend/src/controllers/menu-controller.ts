@@ -21,6 +21,9 @@ import { MenuServiceBase } from "../app/services/menu-service-base";
 import { Menu } from "../models/menu-model";
 import { ApiPath, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiOperationDelete, SwaggerDefinitionConstant } from "swagger-express-ts";
 import { HTTP400Error } from "utils/httpErrors";
+import { ILog } from "utils/log";
+import { String, StringBuilder } from 'typescript-string-operations';
+import { stringify } from "querystring";
 
 @ApiPath({
     path: "/menu",
@@ -31,11 +34,13 @@ import { HTTP400Error } from "utils/httpErrors";
 @injectable()
 export class MenuController extends BaseHttpController{
 
-    private readonly _menuservice: MenuService;
+    private readonly menuservice: MenuService;
+    private readonly logger: ILog;
 
-    public constructor(@inject(TYPES.MenuSrv) menuservice: MenuServiceBase){
+    public constructor(@inject(TYPES.MenuSrv) menuservice: MenuServiceBase, @inject(TYPES.Log) logger: ILog){
         super();
-        this._menuservice = menuservice;
+        this.menuservice = menuservice;
+        this.logger = logger;
     }
     @ApiOperationPost({
         description: "create menu object",
@@ -50,11 +55,11 @@ export class MenuController extends BaseHttpController{
     })
     @httpPost("/create")
     private create(@request() req: express.Request, @response() res: express.Response, @next() next: express.NextFunction) {
-        return this._menuservice.create(req.body)
+        return this.menuservice.create(req.body)
             .then(() => this.ok())
             .catch((err: Error) => {
-                next(new HTTP400Error(err.message));
-                //res.status(400).json({error: err.message});
+                next(new HTTP400Error(String.Format("Erro ao cadastrar menu, descricao do erro: {0}, id: {1}", (<Error>err).message, JSON.stringify(req.body)), this.logger));
+                res.status(400).json({error: err.message});
             });
     }
     @ApiOperationPut({
@@ -70,9 +75,10 @@ export class MenuController extends BaseHttpController{
     })
     @httpPut("/update")
     private update(@request() req: express.Request, @response() res: express.Response, @next() next: express.NextFunction) {
-        return this._menuservice.update(req.body)
+        return this.menuservice.update(req.body)
             .then(() => this.ok())
             .catch((err: Error) => {
+                next(new HTTP400Error(String.Format("Erro ao atualizar menu, descricao do erro: {0}, id: {1}", (<Error>err).message, JSON.stringify(req.body)), this.logger));
                 res.status(400).json({error: err.message});
             });
     }
@@ -91,9 +97,10 @@ export class MenuController extends BaseHttpController{
     
     @httpDelete("/delete/:id")
     private delete(@requestParam("id") id: string, @response() res: express.Response, @next() next: express.NextFunction) {
-        return this._menuservice.remove(id)
+        return this.menuservice.remove(id)
             .then(() => this.ok())
             .catch((err: Error) => {
+                next(new HTTP400Error(String.Format("Erro ao deletar menu, descricao do erro: {0}, id: {1}", (<Error>err).message, id), this.logger));
                 res.status(400).json({error: err.message});
             });
     }
@@ -108,10 +115,11 @@ export class MenuController extends BaseHttpController{
 
     @httpGet("/")
     private getAll(@response() res: express.Response, @next() next: express.NextFunction) {
-        return this._menuservice.getAll()
+        return this.menuservice.getAll()
             //.then((menus: Array<Menu>) => res.json({data: menus}))
             .then((menus: Array<Menu>) => this.json(menus, 200))
             .catch((err: Error) => {
+                next(new HTTP400Error(String.Format("Erro ao retornar menus, descricao do erro: {0}", (<Error>err).message), this.logger));
                 res.status(400).json({error: err.message});
             });
     }
@@ -128,9 +136,10 @@ export class MenuController extends BaseHttpController{
     })
     @httpGet("/:role")
     private getByRole(@requestParam("role") role: string, @response() res: express.Response, @next() next: express.NextFunction) {
-        return this._menuservice.getByRole(role)
+        return this.menuservice.getByRole(role)
             .then((menus: Array<Menu>) => this.json(menus, 200))
             .catch((err: Error) => {
+                next(new HTTP400Error(String.Format("Erro ao retornar por role, descricao do erro: {0}, Role: {1}", (<Error>err).message, role), this.logger));
                 res.status(400).json({error: err.message});
             });
     }

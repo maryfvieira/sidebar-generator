@@ -1,7 +1,8 @@
 import {Container} from "inversify";
+import { Logger } from "winston";
 import BreadcrumbRepositoryBase from "./app/dataaccess/repository/breadcrumb-repo-base";
 import { MenuRepository } from "./app/dataaccess/repository/menu-repo";
-import TYPES from "./constants/TYPES"
+import TYPES from "./constants/TYPES";
 import { BreadcrumbRepository } from "./app/dataaccess/repository/breadcrumb-repo";
 import MenuRepositoryBase from "./app/dataaccess/repository/menu-repo-base";
 import RoleRepositoryBase from "./app/dataaccess/repository/role-repo-base";
@@ -12,30 +13,10 @@ import { RoleServiceBase } from "./app/services/role-service-base";
 import { RoleService } from "./app/services/role-service";
 import { MenuServiceBase } from "./app/services/menu-service-base";
 import { MenuService } from "./app/services/menu-service";
-//import { AppConfig } from "config/appConfig";
-import { WistomLog } from "utils/log";
-import { Logger } from "winston";
-import { Configuration } from "./config/config";
-import { ConfigModelData } from "config/config-model";
+import { WistomLog, ILog } from "./utils/log";
+import { AppConfig } from "./config/config-model";
+import { ConfigFactory, ProdConfig, DevConfig, StagingConfig, TestConfig } from "./config/config";
 
-class AppConfig {
-
-    static getConfig(): ConfigModelData {
-
-        let config : ConfigModelData;
-
-        switch(process.env.NODE_ENV){
-            case "development" : config = new Configuration.ConfigFactory<Configuration.DevConfig>().create(); break;
-            case "production" : config = new Configuration.ConfigFactory<Configuration.ProdConfig>().create(); break;
-            case "staging" : config = new Configuration.ConfigFactory<Configuration.StagingConfig>().create(); break;
-            case "test" : config = new Configuration.ConfigFactory<Configuration.TestConfig>().create(); break;
-            default : config = new Configuration.ConfigFactory<Configuration.DevConfig>().create(); break;
-        }
-
-        return config;
-
-    }
-}
 
 const myContainer = new Container();
 
@@ -44,12 +25,12 @@ myContainer
     .to(BreadcrumbRepository); 
 
 myContainer
-    .bind<MenuRepositoryBase>(TYPES.MenuRepo)
-    .to(MenuRepository); 
-
-myContainer
     .bind<RoleRepositoryBase>(TYPES.RoleRepo)
     .to(RoleRepository); 
+
+myContainer
+    .bind<MenuRepositoryBase>(TYPES.MenuRepo)
+    .to(MenuRepository); 
 
 myContainer
     .bind<BreadcrumbServiceBase>(TYPES.BreadCrumbSrv)
@@ -64,12 +45,12 @@ myContainer
     .to(MenuService); 
 
 myContainer
-    .bind<ConfigModelData>(TYPES.AppConfig)
-    .toConstantValue(AppConfig.getConfig())
+    .bind<AppConfig>(TYPES.AppConfig)
+    .toConstantValue(ConfigFactory.getConfig())
 
 myContainer
-    .bind<Logger>(TYPES.Log)
-    .toConstantValue(new WistomLog().log());
+    .bind<ILog>(TYPES.Log)
+    .to(WistomLog).inSingletonScope();
 
     
 export default myContainer;

@@ -3,15 +3,13 @@ import { inject } from 'inversify';
 import BaseRepositoryInterface from "../dataaccess/repository/base-repo-interface";
 import { Typegoose } from "typegoose";
 import { Logger } from "winston";
+import { ILog } from "../../utils/log";
 
 export abstract class ServiceBase<T extends Typegoose, R extends BaseRepositoryInterface<T>>{
     repo: R;
-    logger: Logger;
 
-
-    public constructor(repo: R, logger: Logger) {
+    public constructor(repo: R) {
         this.repo = repo;
-        this.logger = logger;
     }
 
     abstract create(item: T): Promise<void>;

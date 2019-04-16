@@ -7,13 +7,12 @@ import TYPES from "../../constants/TYPES";
 import { Breadcrumb } from "../../models/breadcrumb-model";
 import BreadcrumbRepositoryBase from "../dataaccess/repository/breadcrumb-repo-base";
 import { BreadcrumbServiceBase } from "./breadcrumb-service-base";
-import { Logger } from "winston";
 
 @injectable()
 export class BreadcrumbService extends BreadcrumbServiceBase{
 
-  public constructor(@inject(TYPES.BreadCrumbRepo) repo: BreadcrumbRepositoryBase, @inject(TYPES.Log) logger: Logger) {
-    super(repo, logger);
+  public constructor(@inject(TYPES.BreadCrumbRepo) repo: BreadcrumbRepositoryBase) {
+    super(repo);
   }
 
     create(item: Breadcrumb): Promise<void> {
@@ -21,7 +20,6 @@ export class BreadcrumbService extends BreadcrumbServiceBase{
       
             this.repo.create(item, (err, res) => {
               if (err) {
-                this.logger.error(err)
                 reject(err);
               }
               else {

@@ -1,4 +1,4 @@
-enum EnvironmentType {
+export enum EnvironmentType {
     Dev = 'development',
     Test = 'testing',
     Stagging = 'staging',

@@ -1,11 +1,10 @@
 import * as mongoose from 'mongoose';
 import { Typegoose } from 'typegoose';
-import BaseRepositoryInterface from './base-repo-interface';
-import InstanceLoader from './../../InstanceLoader';
-import TYPES from "./../../../constants/TYPES"
-import { AppConfig } from 'config/appConfig';
 import { inject } from 'inversify';
-import { ConnectionDBError } from 'utils/httpErrors';
+import BaseRepositoryInterface from './base-repo-interface';
+import TYPES from "./../../../constants/TYPES";
+import { ConnectionDBError } from './../../../utils/httpErrors';
+import { AppConfig } from './../../../config/config-model';
 
 export abstract class BaseRepository<T extends Typegoose> implements BaseRepositoryInterface<T> {
 
@@ -78,7 +77,7 @@ export abstract class BaseRepository<T extends Typegoose> implements BaseReposit
     }
 
     private openConnection(config: AppConfig): void {
-      this.model.db.open(config.getModel().getDatabaseUrl, undefined, undefined, undefined, (err: Error) => {
+      this.model.db.open(config.databaseUrl, undefined, undefined, undefined, (err: Error) => {
         new ConnectionDBError(err);
       });
     }
