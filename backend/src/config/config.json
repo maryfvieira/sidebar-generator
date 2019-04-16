@@ -1,36 +1,38 @@
-[{
-    "name": "development",
-    "app_name": "Sidebar and menu management",
-    "app_desc": "Sidebar and menu management",
-    "node_port": 3000,
-    "json_indentation": 4,
-    "databaseUrl": "mongodb://localhost:27017/Open",
-    "dist": "dist/dev"
-},
 {
-    "name": "test",
-    "app_name": "Sidebar and menu management",
-    "app_desc": "Sidebar and menu management",
-    "node_port": null,
-    "json_indentation": 4,
-    "databaseUrl": "mongodb://localhost:27017/Open",
-    "dist": ""
-},
-{
-    "name": "stagging",
-    "node_port": 8080,
-    "app_name": "Sidebar and menu management",
-    "app_desc": "Sidebar and menu management",
-    "json_indentation": 4,
-    "databaseUrl": "mongodb://localhost:27017/Open",
-    "dist": "dist/staging"
-},
-{
-    "name": "production",
-    "node_port": 8080,
-    "app_name": "Sidebar and menu management",
-    "app_desc": "Sidebar and menu management",
-    "json_indentation": 4,
-    "databaseUrl": "mongodb://localhost:27017/Open",
-    "dist": "dist/production"
-}]
+    "development": {
+        "name": "development",
+        "app_name": "Sidebar app",
+        "app_desc": "Sidebar app",
+        "node_port": 3000,
+        "json_indentation": 4,
+        "database": "mongodb://localhost:27017/Open",
+        "dist": ""
+    },
+    "testing": {
+        "name": "testing",
+        "app_name": "Sidebar app",
+        "app_desc": "Sidebar app",
+        "node_port": 8080,
+        "json_indentation": 4,
+        "database": "mongodb://localhost:27017/Open",
+        "dist": ""
+    },
+    "staging": {
+        "name": "staging",
+        "app_name": "Sidebar app",
+        "app_desc": "Sidebar app",
+        "node_port": 8080,
+        "json_indentation": 4,
+        "database": "mongodb://localhost:27017/Open",
+        "dist": ""
+    },
+    "production": {
+        "name": "production",
+        "app_name": "Sidebar app",
+        "app_desc": "Sidebar app",
+        "node_port": 8080,
+        "json_indentation": 4,
+        "database": "mongodb://localhost:27017/Open",
+        "dist": ""
+    }
+}

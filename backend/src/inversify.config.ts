@@ -12,29 +12,27 @@ import { RoleServiceBase } from "./app/services/role-service-base";
 import { RoleService } from "./app/services/role-service";
 import { MenuServiceBase } from "./app/services/menu-service-base";
 import { MenuService } from "./app/services/menu-service";
-import { AppConfig } from "config/appConfig";
-import { logger, WistomLog } from "utils/log";
+//import { AppConfig } from "config/appConfig";
+import { WistomLog } from "utils/log";
 import { Logger } from "winston";
+import { Configuration } from "./config/config";
+import { ConfigModelData } from "config/config-model";
 
-class AppConfigDefinition {
+class AppConfig {
 
-    static getObj(): AppConfig {
-        return new AppConfig(AppConfigDefinition.getEnvironmentType())
-    }
+    static getConfig(): ConfigModelData {
 
-    static getEnvironmentType(): EnvironmentType {
-
-        let environmentType: EnvironmentType;
+        let config : ConfigModelData;
 
         switch(process.env.NODE_ENV){
-            case "development" : environmentType = EnvironmentType.Dev; break;
-            case "production" : environmentType = EnvironmentType.Prod; break;
-            case "stagging" : environmentType = EnvironmentType.Stagging; break;
-            case "test" : environmentType = EnvironmentType.Test; break;
-            default : environmentType = EnvironmentType.Dev; break;
+            case "development" : config = new Configuration.ConfigFactory<Configuration.DevConfig>().create(); break;
+            case "production" : config = new Configuration.ConfigFactory<Configuration.ProdConfig>().create(); break;
+            case "staging" : config = new Configuration.ConfigFactory<Configuration.StagingConfig>().create(); break;
+            case "test" : config = new Configuration.ConfigFactory<Configuration.TestConfig>().create(); break;
+            default : config = new Configuration.ConfigFactory<Configuration.DevConfig>().create(); break;
         }
 
-        return environmentType;
+        return config;
 
     }
 }
@@ -66,8 +64,8 @@ myContainer
     .to(MenuService); 
 
 myContainer
-    .bind<AppConfig>(TYPES.AppConfig)
-    .toConstantValue(AppConfigDefinition.getObj());
+    .bind<ConfigModelData>(TYPES.AppConfig)
+    .toConstantValue(AppConfig.getConfig())
 
 myContainer
     .bind<Logger>(TYPES.Log)
