@@ -5,7 +5,6 @@ import * as bodyParser from "body-parser";
 import * as swagger from "swagger-express-ts";
 import { SwaggerDefinitionConstant } from "swagger-express-ts";
 import * as express from "express";
-import errorMiddleware from 'middleware/error-handler';
 
 container.applyMiddleware()
 
@@ -14,13 +13,13 @@ const server = new InversifyExpressServer(container);
 process.env.NODE_ENV = "development";
 
 server.setConfig( ( app : any ) => {
-    app.use( '/api-docs/swagger' , express.static( 'swagger' ) );
-    app.use( '/api-docs/swagger/assets' , express.static( 'node_modules/swagger-ui-dist' ) );
-    app.use( bodyParser.json());
-    app.use(errorMiddleware);
+    app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+
+    app.use( '/api-docs/swagger' , express.static( 'swagger' ) );
+    app.use( '/api-docs/swagger/assets' , express.static( 'node_modules/swagger-ui-dist' ) );
     app.use( swagger.express(
         {
             definition : {

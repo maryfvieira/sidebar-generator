@@ -1,11 +1,11 @@
 import * as mongoose from "mongoose";
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import BaseRepositoryInterface from "../dataaccess/repository/base-repo-interface";
 import { Typegoose } from "typegoose";
 import { ServiceBase } from "./service-base";
 import { Menu } from "../../models/menu-model";
 import MenuRepositoryBase from "../dataaccess/repository/menu-repo-base";
 
-export abstract class MenuServiceBase extends ServiceBase<Menu, MenuRepositoryBase>{
-    abstract getByRole(role:String): Promise<Menu[]>;
+export interface MenuServiceBase extends ServiceBase<Menu>{
+    getByRole(role:String): Promise<Menu[]>;
 }

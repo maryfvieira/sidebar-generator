@@ -17,11 +17,11 @@ import {
 import {inject, injectable} from "inversify";
 import { MenuService } from "../app/services/menu-service";
 import TYPES from "../constants/TYPES";
-import { MenuServiceBase } from "../app/services/menu-service-base";
-import { Menu } from "../models/menu-model";
+import { MenuServiceBase } from "./../app/services/menu-service-base";
+import { Menu } from "./../models/menu-model";
 import { ApiPath, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiOperationDelete, SwaggerDefinitionConstant } from "swagger-express-ts";
-import { HTTP400Error } from "utils/httpErrors";
-import { ILog } from "utils/log";
+import { HTTP400Error } from "./../utils/httpErrors";
+import { ILog } from "./../utils/log";
 import { String, StringBuilder } from 'typescript-string-operations';
 import { stringify } from "querystring";
 
@@ -31,7 +31,6 @@ import { stringify } from "querystring";
     security: { basicAuth: [] }
 })
 @controller("/menu")
-@injectable()
 export class MenuController extends BaseHttpController{
 
     private readonly menuservice: MenuService;
@@ -39,7 +38,7 @@ export class MenuController extends BaseHttpController{
 
     public constructor(@inject(TYPES.MenuSrv) menuservice: MenuServiceBase, @inject(TYPES.Log) logger: ILog){
         super();
-        this.menuservice = menuservice;
+        this.menuservice = <MenuService>menuservice;
         this.logger = logger;
     }
     @ApiOperationPost({
@@ -54,7 +53,7 @@ export class MenuController extends BaseHttpController{
         }
     })
     @httpPost("/create")
-    private create(@request() req: express.Request, @response() res: express.Response, @next() next: express.NextFunction) {
+    public create(@request() req: express.Request, @response() res: express.Response, @next() next: express.NextFunction) {
         return this.menuservice.create(req.body)
             .then(() => this.ok())
             .catch((err: Error) => {
@@ -74,7 +73,7 @@ export class MenuController extends BaseHttpController{
         }
     })
     @httpPut("/update")
-    private update(@request() req: express.Request, @response() res: express.Response, @next() next: express.NextFunction) {
+    public update(@request() req: express.Request, @response() res: express.Response, @next() next: express.NextFunction) {
         return this.menuservice.update(req.body)
             .then(() => this.ok())
             .catch((err: Error) => {
@@ -96,7 +95,7 @@ export class MenuController extends BaseHttpController{
     })
     
     @httpDelete("/delete/:id")
-    private delete(@requestParam("id") id: string, @response() res: express.Response, @next() next: express.NextFunction) {
+    public delete(@requestParam("id") id: string, @response() res: express.Response, @next() next: express.NextFunction) {
         return this.menuservice.remove(id)
             .then(() => this.ok())
             .catch((err: Error) => {
@@ -114,7 +113,7 @@ export class MenuController extends BaseHttpController{
     })
 
     @httpGet("/")
-    private getAll(@response() res: express.Response, @next() next: express.NextFunction) {
+    public getAll(@response() res: express.Response, @next() next: express.NextFunction) {
         return this.menuservice.getAll()
             //.then((menus: Array<Menu>) => res.json({data: menus}))
             .then((menus: Array<Menu>) => this.json(menus, 200))
@@ -135,7 +134,7 @@ export class MenuController extends BaseHttpController{
         }
     })
     @httpGet("/:role")
-    private getByRole(@requestParam("role") role: string, @response() res: express.Response, @next() next: express.NextFunction) {
+    public getByRole(@requestParam("role") role: string, @response() res: express.Response, @next() next: express.NextFunction) {
         return this.menuservice.getByRole(role)
             .then((menus: Array<Menu>) => this.json(menus, 200))
             .catch((err: Error) => {

@@ -6,5 +6,5 @@ import { ServiceBase } from "./service-base";
 import RoleRepositoryBase from "../dataaccess/repository/role-repo-base";
 import { Role } from "../../models/role-model";
 
-export abstract class RoleServiceBase extends ServiceBase<Role, RoleRepositoryBase>{
+export interface RoleServiceBase extends ServiceBase<Role>{
 }

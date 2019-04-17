@@ -6,6 +6,6 @@ import { ServiceBase } from "./service-base";
 import BreadcrumbRepositoryBase from "../dataaccess/repository/breadcrumb-repo-base";
 import { Breadcrumb } from "../../models/breadcrumb-model";
 
-export abstract class BreadcrumbServiceBase extends ServiceBase<Breadcrumb, BreadcrumbRepositoryBase>{
+export interface BreadcrumbServiceBase extends ServiceBase<Breadcrumb>{
 
 }

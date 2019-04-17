@@ -11,10 +11,12 @@ import MenuRepositoryBase from "../dataaccess/repository/menu-repo-base";
 import { Menu } from "../../models/menu-model";
 
 @injectable()
-export class MenuService extends MenuServiceBase {
+export class MenuService implements MenuServiceBase {
 
-  public constructor(@inject(TYPES.MenuRepo) repo: MenuRepositoryBase) {
-    super(repo);
+  repo!: MenuRepositoryBase;
+  
+  public constructor(@inject(TYPES.MenuRepo) repo: BaseRepositoryInterface<Menu>) {
+    this.repo = <MenuRepositoryBase>repo;
   }
   getByRole(role: string): Promise<Menu[]> {
     let p = new Promise<Menu[]>((resolve, reject) => {

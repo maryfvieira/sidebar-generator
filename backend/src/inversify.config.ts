@@ -15,22 +15,27 @@ import { MenuServiceBase } from "./app/services/menu-service-base";
 import { MenuService } from "./app/services/menu-service";
 import { WistomLog, ILog } from "./utils/log";
 import { AppConfig } from "./config/config-model";
-import { ConfigFactory, ProdConfig, DevConfig, StagingConfig, TestConfig } from "./config/config";
-
+import "./controllers/menu-controller";
+import { ConfigFactory, ProdConfig, DevConfig, StagingConfig, TestConfig, IConfig } from "./config/config";
+import { Menu } from "./models/menu-model";
+import BaseRepositoryInterface from "./app/dataaccess/repository/base-repo-interface";
+import { Breadcrumb } from "models/breadcrumb-model";
+import { Role } from "models/role-model";
 
 const myContainer = new Container();
 
 myContainer
-    .bind<BreadcrumbRepositoryBase>(TYPES.BreadCrumbRepo)
+    .bind<BaseRepositoryInterface<Breadcrumb>>(TYPES.BreadCrumbRepo)
     .to(BreadcrumbRepository); 
 
 myContainer
-    .bind<RoleRepositoryBase>(TYPES.RoleRepo)
+    .bind<BaseRepositoryInterface<Role>>(TYPES.RoleRepo)
     .to(RoleRepository); 
 
 myContainer
-    .bind<MenuRepositoryBase>(TYPES.MenuRepo)
+    .bind<BaseRepositoryInterface<Menu>>(TYPES.MenuRepo)
     .to(MenuRepository); 
+
 
 myContainer
     .bind<BreadcrumbServiceBase>(TYPES.BreadCrumbSrv)
@@ -44,15 +49,23 @@ myContainer
     .bind<MenuServiceBase>(TYPES.MenuSrv)
     .to(MenuService); 
 
-myContainer
-    .bind<AppConfig>(TYPES.AppConfig)
-    .toConstantValue(ConfigFactory.getConfig())
-
+    
 myContainer
     .bind<ILog>(TYPES.Log)
     .to(WistomLog).inSingletonScope();
 
+
+// myContainer
+//     .bind<AppConfig>(TYPES.AppConfig)
     
+//     .toConstantValue(ConfigFactory.getConfig());
+
+//const appConfig = new DevConfig().getConfig();
+
+myContainer.bind<IConfig>("AppConfig")
+.to(DevConfig).inSingletonScope();
+
+
 export default myContainer;
 
 

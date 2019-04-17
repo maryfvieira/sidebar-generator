@@ -11,10 +11,12 @@ import { String, StringBuilder } from 'typescript-string-operations';
 import { stringify } from "querystring";
 
 @injectable()
-export class RoleService extends RoleServiceBase{
+export class RoleService implements RoleServiceBase{
 
-    public constructor(@inject(TYPES.RoleRepo) repo: RoleRepositoryBase) {
-        super(repo);
+  repo: RoleRepositoryBase;
+
+    public constructor(@inject(TYPES.RoleRepo) repo: BaseRepositoryInterface<Role>) {
+        this.repo = <RoleRepositoryBase>repo;
     }
     
     create(role: Role): Promise<void> {

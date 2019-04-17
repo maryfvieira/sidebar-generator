@@ -2,7 +2,6 @@ import { ILog } from "./log";
 import { inject } from "inversify";
 import TYPES from "constants/TYPES";
 
-
 export class Exception extends Error {
     readonly statusCode!: number;
     readonly name!: string;

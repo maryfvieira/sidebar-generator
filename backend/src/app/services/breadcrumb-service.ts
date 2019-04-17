@@ -9,10 +9,12 @@ import BreadcrumbRepositoryBase from "../dataaccess/repository/breadcrumb-repo-b
 import { BreadcrumbServiceBase } from "./breadcrumb-service-base";
 
 @injectable()
-export class BreadcrumbService extends BreadcrumbServiceBase{
+export class BreadcrumbService implements BreadcrumbServiceBase{
 
-  public constructor(@inject(TYPES.BreadCrumbRepo) repo: BreadcrumbRepositoryBase) {
-    super(repo);
+  repo: BreadcrumbRepositoryBase;
+
+  public constructor(@inject(TYPES.BreadCrumbRepo) repo: BaseRepositoryInterface<Breadcrumb>) {
+    this.repo = <BreadcrumbRepositoryBase>repo;
   }
 
     create(item: Breadcrumb): Promise<void> {

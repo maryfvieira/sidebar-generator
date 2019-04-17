@@ -1,20 +1,16 @@
 import * as mongoose from "mongoose";
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import BaseRepositoryInterface from "../dataaccess/repository/base-repo-interface";
 import { Typegoose } from "typegoose";
 import { Logger } from "winston";
 import { ILog } from "../../utils/log";
 
-export abstract class ServiceBase<T extends Typegoose, R extends BaseRepositoryInterface<T>>{
-    repo: R;
+export interface ServiceBase<T extends Typegoose>{
+    repo: BaseRepositoryInterface<T>;
 
-    public constructor(repo: R) {
-        this.repo = repo;
-    }
-
-    abstract create(item: T): Promise<void>;
-    abstract remove(id: string): Promise<void>;
-    abstract update(item: T): Promise<void>;
-    abstract get(id: string): Promise<T>;
-    abstract getAll(): Promise<T[]>;
+    create(item: T): Promise<void>;
+    remove(id: string): Promise<void>;
+    update(item: T): Promise<void>;
+    get(id: string): Promise<T>;
+    getAll(): Promise<T[]>;
 }

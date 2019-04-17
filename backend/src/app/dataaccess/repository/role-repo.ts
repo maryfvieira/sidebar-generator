@@ -1,14 +1,15 @@
 import * as mongoose from 'mongoose';
 import { Role } from '../../../models/role-model';
 import RoleRepositoryBase from './role-repo-base';
-import { injectable, inject } from 'inversify';
+import { injectable, inject, named } from 'inversify';
 import TYPES from './../../../constants/TYPES';
 import { AppConfig } from './../../../config/config-model';
+import { IConfig } from './../../../config/config';
 
 @injectable()
 export class RoleRepository extends RoleRepositoryBase {
     
-    constructor(role: Role, @inject(TYPES.AppConfig) config: AppConfig) {
+    constructor(role: Role, @inject("AppConfig") config: IConfig) {
         super(role, config);
     }
 }
